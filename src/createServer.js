@@ -124,7 +124,11 @@ function createServer() {
     const { userId, spentAt, title, amount, category, note } = req.body;
 
     if (!Number.isInteger(userId) || !users.some((u) => u.id === userId)) {
-      return res.sendStatus(400);
+      return res.status(400).send({ message: 'Invalid or missing userId' });
+    }
+
+    if (!spentAt || !title || amount === undefined || !category) {
+      return res.status(400).send({ message: 'Missing required fields' });
     }
 
     const newExpense = {
